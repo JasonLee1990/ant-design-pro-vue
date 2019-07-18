@@ -1,5 +1,4 @@
-import api from './index'
-import { axios } from '@/utils/request'
+import apiInvoker from './apiInvoker'
 
 /**
  * login func
@@ -13,7 +12,7 @@ import { axios } from '@/utils/request'
  * @returns {*}
  */
 export function login (parameter) {
-  return axios({
+  return apiInvoker.post({
     url: '/auth/login',
     method: 'post',
     data: parameter
