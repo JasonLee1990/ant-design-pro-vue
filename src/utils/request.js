@@ -11,7 +11,9 @@ const service = axios.create({
   timeout: 6000 // 请求超时时间
 })
 
-service.defaults.headers
+service.defaults.headers = {
+  'Content-Type': 'application/json;charset=UTF-8'
+}
 service.defaults.crossDomain = true
 service.defaults.withCredentials = true
 
@@ -64,7 +66,7 @@ service.interceptors.request.use(config => {
 
   const token = Vue.ls.get(ACCESS_TOKEN)
   if (token) {
-    config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+    config.headers['Authorization'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
   return config
 }, errorHandler)
@@ -73,7 +75,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
   const code = response.data.code
   if (code !== 'SUCCESS') {
-    handleError(response.data.message)
+    errorMessage(response.data.message)
     if (code === 'USER_UNSIGNED_ERROR') {
       logoutHandler()
     }
@@ -84,7 +86,7 @@ service.interceptors.response.use(response => {
 
 const installer = {
   vm: {},
-  install(Vue) {
+  install (Vue) {
     Vue.use(VueAxios, service)
   }
 }

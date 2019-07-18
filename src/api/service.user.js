@@ -9,5 +9,20 @@ const endpoints = {
 }
 
 const getById = id => {
-  apiInvoker.get(endpoints.getById, { params: { id } })
+  apiInvoker.get(endpoints.getById, {id})
 }
+
+const create = (user = {}) => {
+  apiInvoker.post(endpoints.create, user);
+}
+const update = (user = {}) => {
+  apiInvoker.post(endpoints.update, user);
+}
+
+const userService = {
+  getById,
+  create,
+  update,
+}
+
+export default userService

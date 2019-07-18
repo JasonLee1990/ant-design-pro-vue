@@ -3,40 +3,48 @@ import apiInvoker from './apiInvoker'
 const endpoints = {
   login: '/pub/login',
   sendVerifyCode: '/pub/verifyCode',
+  forgetPassword: '/pub/forgetPassword',
   logout: '/auth/logout',
   currentUser: '/auth/current'
 }
 
 /**
  * login func
- * parameter: {
+ * data: {
  *     username: '',
  *     password: '',
  *     remember_me: true,
+ *     login_type: 0,
  *     captcha: '12345'
  * }
- * @param parameter
+ * @param data
  * @returns {*}
  */
-const login = (parameter = {}) => {
-  return apiInvoker.post(endpoints.login, parameter)
+const login = (data = {}) => {
+  return apiInvoker.post(endpoints.login, data)
 }
 
-const sendVerifyCode = (parameter = {}) => {
-  return apiInvoker.sendVerifyCode(endpoints.sendVerifyCode, parameter)
+const sendVerifyCode = (data = {}) => {
+  return apiInvoker.post(endpoints.sendVerifyCode, data)
 }
 
-const logout = (parameter = {}) => {
-  return apiInvoker.post(endpoints.logout, parameter)
+const logout = (data = {}) => {
+  return apiInvoker.post(endpoints.logout, data)
 }
 
 const currentUser = () => {
   return apiInvoker.get(endpoints.currentUser)
 }
 
-export default (commonService = {
+const forgetPassword = (data = {}) => {
+  return apiInvoker.post(endpoints.forgetPassword, data)
+}
+
+const commonService = {
   login,
   sendVerifyCode,
   logout,
-  currentUser
-})
+  currentUser,
+  forgetPassword
+}
+export default commonService

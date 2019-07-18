@@ -44,7 +44,7 @@
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
-            <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
+            <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile', {rules: [{ required: true, pattern: this.regexs.mobile, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
               <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
@@ -119,7 +119,8 @@ import md5 from 'md5'
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-import { getSmsCaptcha, get2step } from '@/api/login'
+import { regexs } from '@/utils/helper/common.constants'
+import commonService from '@/api/service.common'
 
 export default {
   components: {
@@ -129,6 +130,7 @@ export default {
     return {
       customActiveKey: 'tab1',
       loginBtn: false,
+      regexs,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
       requiredTwoStepCaptcha: false,
@@ -144,13 +146,13 @@ export default {
     }
   },
   created () {
-    get2step({ })
-      .then(res => {
-        this.requiredTwoStepCaptcha = res.result.stepCode
-      })
-      .catch(() => {
-        this.requiredTwoStepCaptcha = false
-      })
+    // get2step({ })
+    //   .then(res => {
+    //     this.requiredTwoStepCaptcha = res.result.stepCode
+    //   })
+    //   .catch(() => {
+    //     this.requiredTwoStepCaptcha = false
+    //   })
     // this.requiredTwoStepCaptcha = true
   },
   methods: {
@@ -158,8 +160,7 @@ export default {
     // handler
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
-      const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
-      if (regex.test(value)) {
+      if (regexs.mail.test(value)) {
         state.loginType = 0
       } else {
         state.loginType = 1
@@ -220,7 +221,7 @@ export default {
           }, 1000)
 
           const hide = this.$message.loading('验证码发送中..', 0)
-          getSmsCaptcha({ mobile: values.mobile }).then(res => {
+          commonService.sendVerifyCode({ mobile: values.mobile }).then(res => {
             setTimeout(hide, 2500)
             this.$notification['success']({
               message: '提示',

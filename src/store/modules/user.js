@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { login, getInfo, logout } from '@/api/login'
+import commonService from '@/api/service.common'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 
@@ -7,6 +7,7 @@ const user = {
   state: {
     token: '',
     name: '',
+    userType: 'MANAGE',
     welcome: '',
     avatar: '',
     roles: [],
@@ -36,7 +37,7 @@ const user = {
     // 登录
     Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        login(userInfo).then(response => {
+        commonService.login(userInfo).then(response => {
           const result = response.result
           Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
           commit('SET_TOKEN', result.token)
@@ -50,7 +51,7 @@ const user = {
     // 获取用户信息
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
-        getInfo().then(response => {
+        commonService.currentUser().then(response => {
           const result = response.result
 
           if (result.role && result.role.permissions.length > 0) {
@@ -86,7 +87,7 @@ const user = {
         commit('SET_ROLES', [])
         Vue.ls.remove(ACCESS_TOKEN)
 
-        logout(state.token).then(() => {
+        commonService.logout(state).then(() => {
           resolve()
         }).catch(() => {
           resolve()

@@ -1,27 +1,32 @@
-import { axios } from '../utils/request'
+import { axios } from '@/utils/request'
 
 const apiInvoker = {
-  request(config) {
+  request (config) {
     return axios.request(config)
   },
-  get(url, ) {
-    {}
+  get (url, params = {}) {
+    const config = {
+      params
+    }
     return axios.get(url, config)
   },
-  delete(url, config) {
+  delete (url, params = {}) {
+    const config = {
+      params
+    }
     return axios.delete(url, config)
   },
-  head(url, config) {
+  head (url, config) {
     return axios.head(url, config)
   },
-  post(url, data, config) {
-    return axios.post(url, data, config)
+  post (url, data) {
+    return axios.post(url, data)
   },
-  put(url, data, config) {
-    return axios.put(url, data, config)
+  put (url, data) {
+    return axios.put(url, data)
   },
-  patch(url, data, config) {
-    return axios.patch(url, data, config)
-  },
+  patch (url, data) {
+    return axios.patch(url, data)
+  }
 }
 export default apiInvoker
