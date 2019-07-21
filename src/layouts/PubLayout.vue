@@ -5,11 +5,11 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">某某现金贷款平台</span>
+            <span class="title">VUE最好</span>
           </a>
         </div>
         <div class="desc">
-          某某现金贷款平台
+          VUE最好
         </div>
       </div>
 
@@ -22,7 +22,7 @@
           <a href="_self">条款</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2019 上海儒鸣网络技术有限公司
+          Copyright &copy; 2019 XXXX有限公司
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@ import RouteView from './RouteView'
 import { mixinDevice } from '@/utils/mixin'
 
 export default {
-  name: 'UserLayout',
+  name: 'PubLayout',
   components: { RouteView },
   mixins: [mixinDevice],
   data () {
